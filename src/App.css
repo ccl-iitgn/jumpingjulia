@@ -1,0 +1,276 @@
+body {
+    margin: 0;
+    min-width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(#c2613b,#f19f76,#f1ac9070,#f7b89d);
+    font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    color: #075B5E;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    animation: titleGlow 2s ease-in-out infinite alternate;
+    margin: 0.5em 0;
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.jumping-julia-main {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #efe4d2ad;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.game-grid-container {
+    display: grid;
+    gap: 5px;
+    margin: 0 auto;
+}
+
+.game-grid-container>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 700;
+    border: 2px solid gray;
+    aspect-ratio: 1/1;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.jumpling-julia-moveable-path:hover {
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.jumping-julia-grid-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.jumping-julia-btns-section {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.jumping-julia-btns-section>button {
+    min-width: 100px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    background-color: #099fa4;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.jumping-julia-btns-section>button:hover {
+    background-color: #075B5E;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.game-curr-posion-frog {
+    width: 60%;
+    max-width: 50px;
+    position: absolute;
+    animation: bounce 0.8s infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+.maze-solution-path {
+    border: 5px solid #075B5E !important;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        border-color: #075B5E;
+    }
+
+    50% {
+        border-color: #099fa4;
+    }
+
+    100% {
+        border-color: #075B5E;
+    }
+}
+
+.maze-solution-path span {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #075B5E;
+    font-size: 0.8rem;
+}
+
+.jumping-julia-popup-main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(94, 49, 7, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.jumping-julia-popup-container {
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.526);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    overflow: auto;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.jumping-julia-popup-cancel {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    color: red;
+}
+
+
+.jumping-julia-popup-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.jumping-julia-popup-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@media (max-width: 768px) {
+    .jumping-julia-main {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .jumping-julia-btns-section {
+        padding: 10px;
+    }
+
+    .jumping-julia-btns-section>button {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .jumping-julia-popup-container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .jumping-julia-btns-section>button {
+        min-width: 80px;
+        padding: 5px 10px;
+    }
+    .jumping-julia-grid-section{
+        padding: 0px;
+    }
+}
