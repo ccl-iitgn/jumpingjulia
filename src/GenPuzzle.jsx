@@ -24,19 +24,20 @@ export default function GenPuzzle() {
 
     const GenerateButtonHandler = async () => {
         if (remaining != 0) {
-            alert("Remaining must be zero.")
+            alert("The remaining value must be zero.")
             return
         }
         if (solutionLen[1] < solutionLen[0]) {
-            alert("Min must be greaterthan max.")
+            alert("Minimum should be less than maximum.")
             return
         }
         if (solutionLen[1] - solutionLen[0] > 10) {
-            alert("Min Max difference must be less that or eqaul to 10.")
+            alert("The difference between max and min must be 10 or less.")
             return
         }
         if (maxSol > 50 || maxSol < 1) {
-            alert("maximum solutions must be lessthan 50 and greaterthan 0.")
+            alert("Allowed range for puzzle generation is 1 to 50.")
+            return
         }
         setLoading(true)
         await new Promise(r => setTimeout(r, 1000))
@@ -147,11 +148,24 @@ export default function GenPuzzle() {
                     <div className="gen-puzzle-size-conatiner">
                         <div>
                             <label htmlFor="rowsSize">Grid Rows </label>
-                            <input type="number" id="rowsSize" value={size[0]} onChange={(e) => { setSize(prev => ([parseInt(e.target.value), prev[1]])) }} />
+                            <input type="number" placeholder="Max 6" id="rowsSize" value={size[0]}
+                                onChange={(e) => {
+                                    setSize(prev => {
+                                        let n = parseInt(e.target.value)
+                                        if (n > 6) return [6, prev[1]]
+                                        return [n, prev[1]]
+                                    })
+                                }} />
                         </div>
                         <div>
                             <label htmlFor="colsSize">Grid Columns </label>
-                            <input type="number" id="colsSize" value={size[1]} onChange={(e) => { setSize(prev => ([prev[0], parseInt(e.target.value)])) }} />
+                            <input type="number" id="colsSize" placeholder="Max 6" value={size[1]} onChange={(e) => {
+                                setSize(prev => {
+                                    let n = parseInt(e.target.value)
+                                    if (n > 6) return [prev[0], 6]
+                                    return [prev[0], n]
+                                })
+                            }} />
                         </div>
                     </div>
                     <div className="gen-puzzle-len-conatiner">
