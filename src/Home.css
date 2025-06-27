@@ -1,0 +1,132 @@
+.home-page-main {
+    min-width: 30%;
+    max-width: 700px;
+    background: linear-gradient(135deg, rgba(255, 247, 240, 0.9) 0%, rgba(255, 237, 214, 0.95) 100%);
+    margin: 6vh auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 30px;
+    border-radius: 25px;
+    box-shadow: 0 15px 30px rgba(255, 140, 0, 0.25);
+    gap: 30px;
+    border: 2px solid rgba(255, 166, 0, 0.3);
+    animation: fadeInUp 0.8s ease-out;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.home-page-main:hover {
+    box-shadow: 0 20px 40px rgba(255, 140, 0, 0.35);
+    transform: translateY(-5px);
+}
+
+.home-page-main>img {
+    width: 60%;
+    max-width: 400px;
+    min-width: 250px;
+    filter: drop-shadow(0 10px 15px rgba(255, 140, 0, 0.3));
+    animation: float 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.home-page-main>img:hover {
+    transform: scale(1.05) rotate(2deg);
+}
+
+.home-page-main>div {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    animation: fadeIn 1s ease-out;
+}
+
+.home-page-main button {
+    min-width: 200px;
+    padding: 15px 25px;
+    background: linear-gradient(45deg, #FF8C00, #FF5722);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+    font-size: 1.1rem;
+    position: relative;
+    overflow: hidden;
+    animation: pulseOrange 2s infinite;
+}
+
+.home-page-main button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(255, 87, 34, 0.4);
+    background: linear-gradient(45deg, #FF5722, #FF8C00);
+}
+
+.home-page-main button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(rgba(255, 255, 255, 0.3), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+}
+
+.home-page-main button:hover::after {
+    left: 100%;
+}
+
+@keyframes pulseOrange {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+    .home-page-main {
+        width: 80%;
+        padding: 40px 20px;
+        margin: 3vh auto;
+    }
+
+    .home-page-main button {
+        min-width: 180px;
+        padding: 12px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-page-main {
+        width: 90%;
+        padding: 30px 15px;
+        gap: 20px;
+    }
+
+    .home-page-main>img {
+        width: 80%;
+    }
+
+    .home-page-main button {
+        width: 90%;
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+}

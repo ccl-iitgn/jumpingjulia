@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from 'react'
-import { GetGame, GetGamesLength } from "./Getgame"
+import { GetGame, GetGamesLength } from "./GetLocalGames"
 import { useParams } from "react-router-dom"
 import { getSolution } from "./Solution"
 import { MdCancel } from "react-icons/md";
@@ -77,16 +77,21 @@ function Game() {
     }, [curr])
     useEffect(() => {
         if (!level) return
+
         if (level < 1) {
-            window.location.href = `/maze/1`
+            window.location.href = `/own/1`
         }
         if (level > tLevels) {
-            window.location.href = `/maze/${tLevels}`
+            window.location.href = `/own/${tLevels}`
         }
         setGame(GetGame(level))
         setCurr([0, 0])
     }, [level])
-
+    useEffect(() => {
+        if (tLevels == 0) {
+            window.location.href = `/gen`
+        }
+    }, [tLevels])
     return (
         <Fragment>
             <Download heading={`Juming Julia Puzzle level-${level}`} open={downloadOpen} setOpen={setDownloadOpen} games={[game]} />
@@ -130,9 +135,9 @@ function Game() {
                     <div className='jumping-julia-popup-body'>
                         <img src="/Solved_animation.gif" alt="animation-img" />
                         <section className='jumping-julia-btns-section'>
-                            {level > 1 && <button onClick={() => window.location.href = `/maze/${level - 1}`}>Previous</button>}
-                            <button onClick={() => window.location.href = `/maze/${level}`}>Re Play</button>
-                            {level < tLevels && <button onClick={() => window.location.href = `/maze/${level + 1}`}>Next</button>}
+                            {level > 1 && <button onClick={() => window.location.href = `/own/${level - 1}`}>Previous</button>}
+                            <button onClick={() => window.location.href = `/own/${level}`}>Re Play</button>
+                            {level < tLevels && <button onClick={() => window.location.href = `/own/${level + 1}`}>Next</button>}
                         </section>
                     </div>
                 </div>
@@ -169,11 +174,11 @@ function Game() {
                     <div>
                         <button onClick={() => window.location.href = "/"}>Home</button>
                         <button onClick={() => window.location.href = "/gen"}>Generate own Puzzle</button>
-                        <button onClick={() => window.location.href = "/own/1"}>Play Generated Puzzles</button>
+                        <button onClick={() => window.location.href = "/maze/1"}>Play Default Puzzles</button>
                     </div>
                     <span onClick={() => setOpen(true)}><FaInfoCircle /></span>
                 </div>
-                <h2>Level {level}</h2>
+                <h2>Self Generated Game - {level}</h2>
                 <section className='jumping-julia-grid-section'>
                     {game && game.grid &&
                         <div className='game-grid-container' style={{
@@ -193,12 +198,12 @@ function Game() {
                         </div>}
                 </section>
                 <section className='jumping-julia-btns-section'>
-                    {level > 1 && <button onClick={() => window.location.href = `/maze/${level - 1}`}>Previous</button>}
+                    {level > 1 && <button onClick={() => window.location.href = `/own/${level - 1}`}>Previous</button>}
                     <button onClick={prevMoveHandler}>undo</button>
                     <button onClick={() => setDownloadOpen(true)}>Download</button>
                     <button onClick={SolutionHandler}>Solution</button>
-                    <button onClick={() => window.location.href = `/maze/${level}`}>Refresh</button>
-                    {level < tLevels && <button onClick={() => window.location.href = `/maze/${level + 1}`}>Next</button>}
+                    <button onClick={() => window.location.href = `/own/${level}`}>Refresh</button>
+                    {level < tLevels && <button onClick={() => window.location.href = `/own/${level + 1}`}>Next</button>}
                 </section>
             </main>
 

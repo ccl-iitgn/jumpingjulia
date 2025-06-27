@@ -42,77 +42,188 @@ const getSolution = (game) => {
     return []
 }
 
-const genPath = (data, size, start, end) => {
-    let grid = [...Array(size[0])].map((item) => Array(size[1]))
-    let directions = [
-        [-1, 0],
-        [1, 0],
-        [0, -1],
-        [0, 1]
-    ]
-    let path = []
-    let dfs = (x, y, data) => {
-        if (end[0] == x && end[1] == y) {
-            return true
+const genPath = (data, size, start, end, min, max) => {
+    const [rows, cols] = size;
+    const grid = Array(rows).fill().map(() => Array(cols).fill(null));
+    const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+    const solutions = [];
+    const path = new Set();
+    const solution = [];
+    
+    const dfs = (x, y, availableData, currentGrid) => {
+        if (solution.length > max) return;
+        
+        const coordKey = `${x},${y}`;
+        path.add(coordKey);
+        solution.push(coordKey);
+        
+        if (x === end[0] && y === end[1]) {
+            if (solution.length >= min && solution.length <= max) {
+                solutions.push({
+                    path: new Set(path),
+                    grid: currentGrid.map(row => [...row]), 
+                    solution: [...solution]
+                });
+            }
+            path.delete(coordKey);
+            solution.pop();
+            return;
         }
-        path.push([x, y])
-        let nRem = []
-        for (let i = 1; i <= 25; i += 1) {
-            let n = data[i]
-            if (n && n > 0) {
-                nRem.push(i)
+        
+        const availableNums = [];
+        for (let i = 1; i <= 10; i++) {
+            if (availableData[i] > 0) {
+                availableNums.push(i);
             }
         }
-        let movePaths = {}
-
-        for (let i of nRem) {
-            movePaths[i] = []
-            for (let [a, b] of directions) {
-                let dx = x + a * i
-                let dy = y + b * i
-                if (dx >= 0 && dx < size[0] && dy >= 0 && dy < size[1]) {
-                    if (grid[dx][dy]) {
-                        movePaths[i] = []
-                        continue
+        const validMoves = new Map();
+        for (const num of availableNums) {
+            const moves = [];
+            let hasBlockedPath = false;
+            
+            for (const [dx, dy] of directions) {
+                const newX = x + dx * num;
+                const newY = y + dy * num;
+                
+                if (newX >= 0 && newX < rows && newY >= 0 && newY < cols) {
+                    if (currentGrid[newX][newY] !== null) {
+                        hasBlockedPath = true;
+                        break;
                     }
-                    movePaths[i].push([dx, dy])
+                    moves.push([newX, newY]);
+                }
+            }
+            
+            if (!hasBlockedPath && moves.length > 0) {
+                validMoves.set(num, moves);
+            }
+        }
+        
+        for (const [num, moves] of validMoves) {
+            availableData[num]--;
+            
+            for (const [newX, newY] of moves) {
+                const newGrid = currentGrid.map(row => [...row]);
+                newGrid[x][y] = num;
+                for (const [dx, dy] of directions) {
+                    const blockX = x + dx * num;
+                    const blockY = y + dy * num;
+                    if (blockX >= 0 && blockX < rows && blockY >= 0 && blockY < cols) {
+                        newGrid[blockX][blockY] = -1;
+                    }
+                }
+                
+                dfs(newX, newY, availableData, newGrid);
+            }
+            
+            availableData[num]++;
+        }
+        
+        path.delete(coordKey);
+        solution.pop();
+    };
+    const initialData = { ...data };
+    dfs(start[0], start[1], initialData, grid);
+    
+    return solutions;
+};
+
+const genPuzzle = (data, size, min, max, n) => {
+    const [rows, cols] = size;
+    const start = [0, 0];
+    const end = [rows - 1, cols - 1];
+    const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+    
+    const getNextPos = (x, y) => {
+        const nextY = y + 1;
+        return nextY < cols ? [x, nextY] : [x + 1, 0];
+    };
+    
+    const canPlaceNumber = (x, y, num, grid, path) => {
+        for (const [dx, dy] of directions) {
+            const checkX = x + dx * num;
+            const checkY = y + dy * num;
+            if (checkX >= 0 && checkX < rows && checkY >= 0 && checkY < cols) {
+                if (path.has(`${checkX},${checkY}`)) {
+                    return false;
                 }
             }
         }
-        for (let i of nRem) {
-            data[i] -= 1
-            for (let [a, b] of movePaths[i]) {
-                grid[x][y] = i
-                if (dfs(a, b, JSON.parse(JSON.stringify(data)))) return true
-                grid[x][y] = null
-            }
-            data[i] += 1
+        return true;
+    };
+    
+    const fillGrid = (x, y, grid, availableData, path) => {
+        if (x === end[0] && y === end[1]) {
+            return true;
         }
-        path.pop()
-        return false
-
+        if (grid[x][y] !== null && grid[x][y] !== -1) {
+            const [nextX, nextY] = getNextPos(x, y);
+            return fillGrid(nextX, nextY, grid, availableData, path);
+        }
+        const availableNums = [];
+        for (let i = 1; i <= 10; i++) {
+            if (availableData[i] > 0 && canPlaceNumber(x, y, i, grid, path)) {
+                availableNums.push(i);
+            }
+        }
+        
+        for (const num of availableNums) {
+            availableData[num]--;
+            grid[x][y] = num;
+            
+            const [nextX, nextY] = getNextPos(x, y);
+            if (fillGrid(nextX, nextY, grid, availableData, path)) {
+                return true;
+            }
+            
+            grid[x][y] = null;
+            availableData[num]++;
+        }
+        
+        return false;
+    };
+    
+    const pathResults = genPath({ ...data }, size, start, end, min, max);
+    console.log(`Paths Generated: ${pathResults.length}`);
+    
+    if (pathResults.length === 0) {
+        return [];
     }
-    if (dfs(start[0], start[1], data)) {
-        console.log(path)
-        return grid
+    
+    const games = [];
+    
+    for (const pathData of pathResults) {
+        const { grid, path, solution } = pathData;
+        
+        const remainingData = { ...data };
+        for (let x = 0; x < rows; x++) {
+            for (let y = 0; y < cols; y++) {
+                const cellValue = grid[x][y];
+                if (cellValue && cellValue > 0 && remainingData[cellValue]) {
+                    remainingData[cellValue]--;
+                }
+            }
+        }
+        const gridCopy = grid.map(row => [...row]);
+        if (fillGrid(0, 0, gridCopy, remainingData, path)) {
+            gridCopy[end[0]][end[1]] = 0;
+            games.push({
+                size,
+                grid: gridCopy,
+                start,
+                end,
+                solution
+            });
+            
+            if (games.length >= n) {
+                break;
+            }
+        }
     }
-    return null
-}
+    
+    return games;
+};
+// let tempData = { 0: 1, 1: 9, 2: 11, 3: 8, 4: 7 }
+// console.log(genPuzzle(tempData, [6, 6], 12, 14, 5).length)
 
-const genPuzzle = (data) => {
-
-
-}
-let data = {
-    0: 1,
-    1: 10,
-    2: 6,
-    3: 8,
-    4: 11
-}
-let size = [6, 6]
-let start = [0, 0]
-let end = [5, 5]
-// genPuzzle(data)
-console.log(genPath(data, size, start, end))
-export { getSolution }
+export { getSolution, genPuzzle }
