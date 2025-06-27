@@ -449,12 +449,16 @@ h1 {
 
 @media (max-width:600px) {
     .download-span {
-        font-size: 5px !important;
+        font-size: 8px !important;
         transform: translateX(-5px) translateY(-5px) !important;
     }
 
     .download-grid-container {
         gap: 3px;
+    }
+
+    .game-grid-container>div {
+        font-size: 0.8rem;
     }
 
     .download-grid-container>div {
@@ -468,9 +472,7 @@ h1 {
         position: relative;
         overflow: hidden;
     }
-    .game-grid-container>div{
-        font-size: 0.8rem;
-    }
+
 }
 
 @media (max-width: 480px) {
