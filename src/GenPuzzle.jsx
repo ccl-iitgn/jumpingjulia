@@ -148,21 +148,21 @@ export default function GenPuzzle() {
                     <div className="gen-puzzle-size-conatiner">
                         <div>
                             <label htmlFor="rowsSize">Grid Rows </label>
-                            <input type="number" placeholder="Max 6" id="rowsSize" value={size[0]}
+                            <input type="number" placeholder="Max 8" id="rowsSize" value={size[0]}
                                 onChange={(e) => {
                                     setSize(prev => {
                                         let n = parseInt(e.target.value)
-                                        if (n > 6) return [6, prev[1]]
+                                        if (n > 8) return [8, prev[1]]
                                         return [n, prev[1]]
                                     })
                                 }} />
                         </div>
                         <div>
                             <label htmlFor="colsSize">Grid Columns </label>
-                            <input type="number" id="colsSize" placeholder="Max 6" value={size[1]} onChange={(e) => {
+                            <input type="number" id="colsSize" placeholder="Max 8" value={size[1]} onChange={(e) => {
                                 setSize(prev => {
                                     let n = parseInt(e.target.value)
-                                    if (n > 6) return [prev[0], 6]
+                                    if (n > 8) return [prev[0], 8]
                                     return [prev[0], n]
                                 })
                             }} />
