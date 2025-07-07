@@ -127,24 +127,9 @@ export default function GenPuzzle() {
                     </div>
                     <span onClick={() => setOpen(true)}><FaInfoCircle /></span>
                 </div>
-                <section className="gen-puzzle-show-section">
-                    <h2>Generate Own Puzzles</h2>
-                    <div className="gen-puzzle-show-container">
-                        {[...Array(10)].map((item, inx) => {
-                            if (!formData[inx]) {
-                                return
-                            }
-                            return (
-                                <div key={inx} style={{ backgroundColor: colors[inx] }}>
-                                    <span>{inx}({formData[inx]})</span>
 
-                                </div>
-                            )
-                        })}
-
-                    </div>
-                </section>
                 <section className="gen-puzzle-size-n-len-section">
+                    <h2>Generate Own Puzzles</h2>
                     <div className="gen-puzzle-size-conatiner">
                         <div>
                             <label htmlFor="rowsSize">Grid Rows </label>
@@ -183,9 +168,25 @@ export default function GenPuzzle() {
                         </div>
                     </div>
                 </section>
-
-                <section className="gen-puzzle-add-tile-section">
+                <section className="gen-puzzle-show-section">
                     <h3>Tiles Left to Assign: {remaining}</h3>
+                    <div className="gen-puzzle-show-container">
+                        {[...Array(10)].map((item, inx) => {
+                            if (!formData[inx]) {
+                                return
+                            }
+                            return (
+                                <div key={inx} style={{ backgroundColor: colors[inx] }}>
+                                    <span>{inx}({formData[inx]})</span>
+
+                                </div>
+                            )
+                        })}
+
+                    </div>
+                </section>
+                <section className="gen-puzzle-add-tile-section">
+
                     <div className="gen-puzzle-add-tile-container">
                         <div>
                             <label htmlFor="num_entry">	Jump Distance </label>
