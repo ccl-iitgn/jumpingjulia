@@ -1,12 +1,32 @@
-# React + Vite
+# 🐸 Jumping Julia
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Jumping Julia** is an interactive web-based puzzle game where the player controls Julia — a frog-like character who can jump in specific patterns. The goal is to find a valid sequence of jumps that moves Julia from her starting position to the target location, while obeying puzzle-specific movement constraints.
 
-Currently, two official plugins are available:
+The game is designed to challenge spatial thinking, constraint satisfaction, and strategic planning.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🧩 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🎮 Interactive path-based puzzle gameplay
+- 🧠 Puzzle-solving logic implemented with custom backtracking solver
+- ⚙️ Automatic puzzle generator that creates new playable levels
+- 📊 Visual interface showing Julia, blocked cells, and jump trails
+- 💡 Real-time validation and feedback on puzzle completion
+
+---
+
+## 🧪 How to Run
+
+```bash
+# Clone the repository
+git clone https://github.com/ccl-iitgn/jumpingjulia.git
+cd jumpingjulia
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+
+# → App runs at http://localhost:5173/

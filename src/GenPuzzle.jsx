@@ -250,7 +250,7 @@ export default function GenPuzzle() {
                                                     return (
                                                         <div key={ind - inx} className={n != -1 ? "maze-solution-path" : ""} style={{ backgroundColor: inx == game.start[0] && ind == game.start[1] ? "red" : inx == game.end[0] && ind == game.end[1] ? "green" : colors[item] }}>
                                                             {0 == inx && 0 == ind && <img className='game-curr-posion-frog' src="/frog.png" alt="current-position-indicator-frog" />}
-                                                            {item}
+                                                            {n!=-1 && item}
                                                             {n != -1 && <span>{n + 1}</span>}
                                                         </div>
                                                     )
